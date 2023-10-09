@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Jam Digital || Norman</title>
+	<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+	<style>
+		body {
+			font-size: 100px;
+			color: #fff;
+			background: url(1.gif);
+			background-size: cover;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+			height: 100vh;
+			margin: 0;
+		}
+
+		#transisi-overlay {
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background: #fff; /* Warna latar belakang selama transisi */
+			animation: fadeOut 2s ease-out forwards; /* Animasi fadeOut selama 2 detik */
+		}
+
+		@keyframes fadeOut {
+			0% {
+				opacity: 1;
+			}
+			100% {
+				opacity: 0;
+				visibility: hidden; /* Sembunyikan elemen setelah animasi selesai */
+			}
+		}
+
+		#jam-container {
+			padding: 45px;
+			border-radius: 25px;
+			box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+			backdrop-filter: blur(10px);
+			text-align: center;
+			position: relative;
+			font-family: 'Pacifico', cursive;
+			display: flex;
+			flex-direction: row; /* Mengatur arah elemen secara horizontal */
+		}
+
+		#jam-time {
+			font-family: 'Calibri', sans-serif; /* Menggunakan jenis font Calibri */
+			font-size: 60px; /* Ukuran font jam */
+			transition: font-size 0.3s ease; /* Animasi perubahan ukuran font */
+			cursor: pointer; /* Ubah kursor saat di atas jam */
+		}
+
+		#jam-am-pm {
+			font-family: 'Calibri', sans-serif; /* Menggunakan jenis font Calibri */
+			font-size: 30px; /* Ukuran font AM/PM */
+		}
+
+		#tanggal {
+			font-size: 30px;
+			margin-top: 20px;
+			color: #fff;
+			font-family: 'Times New Roman', Times, serif;
+			transition: font-size 0.3s ease; /* Animasi perubahan ukuran font */
+			cursor: pointer; /* Ubah kursor saat di atas tanggal */
+		}
+
+		#background-overlay {
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background: rgba(0, 0, 0, 0.5); /* Warna gelap dengan transparansi */
+			z-index: -1; /* Menempatkan lapisan di bawah konten lainnya */
+		}
+
+		/* Animasi zoom saat hover */
+		#jam-time:hover {
+			font-size: 80px;
+		}
+
+		/* Animasi zoom lebih kecil saat hover pada tanggalContainer */
+		#tanggal:hover {
+			font-size: 35px; /* Ganti ukuran font saat di-hover menjadi 35px */
+		}
+
+		/* Tambahkan bayangan saat elemen di-hover */
+		#jam-container:hover {
+			box-shadow: 0 0 20px rgba(255, 255, 255, 0.5); /* Tambahkan bayangan putih saat di-hover */
+		}
+
+		/* Animasi zoom saat hover */
+		#jam-container:hover #jam-time {
+			font-size: 80px;
+		}
+
+		/* Animasi zoom lebih kecil saat hover pada tanggalContainer */
+		#jam-container:hover #tanggal {
+			font-size: 35px;
+		}
+
+</style>
+<script type="text/javascript">
+	window.onload = function() {
+		setTimeout(function() {
+			var transisiOverlay = document.getElementById('transisi-overlay');
+                transisiOverlay.style.display = 'none'; // Sembunyikan overlay transisi
+            }, 2000); // 2000 milidetik (2 detik)
+		jam();
+		tanggal();
+	}
+
+	function jam() {
+		var jamContainer = document.getElementById('jam-time'),
+		ampmContainer = document.getElementById('jam-am-pm'),
+		d = new Date(),
+		h = d.getHours(),
+		m = set(d.getMinutes()),
+		s = set(d.getSeconds()),
+		ampm = h >= 12 ? 'PM' : 'AM';
+
+            // Konversi format 24 jam ke 12 jam
+            h = h % 12;
+            h = h ? h : 12; // Jika jam adalah 0, ubah menjadi 12.
+
+            jamContainer.innerHTML = h + " : " + m + " : " + s;
+            ampmContainer.innerHTML = ampm;
+
+            setTimeout(jam, 1000);
+        }
+
+        function set(a) {
+        	a = a < 10 ? '0' + a : a;
+        	return a;
+        }
+
+        function tanggal() {
+        	var tanggalContainer = document.getElementById('tanggal'),
+        	d = new Date(),
+        	days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+        	day = days[d.getDay()],
+        	month = d.toLocaleString('en-US', { month: 'long' }),
+        	date = d.getDate(),
+        	year = d.getFullYear();
+
+        	tanggalContainer.innerHTML = day + ", " + month + " " + date + ", " + year;
+        }
+    </script>
+</head>
+<body>
+	<div id="transisi-overlay"></div>
+	<div id="background-overlay"></div>
+	<div id="jam-container">
+		<div id="jam-time"></div>
+		<div id="jam-am-pm"></div>
+	</div>
+	<div id="tanggal"></div>
+</body>
+</html>
